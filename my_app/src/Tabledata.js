@@ -4,8 +4,8 @@ import "./Tabledata.css";
 import Table1 from "./Table1";
 
 const Tabledata = () => {
-  const [studentData, setStudentData] = useState([]);
   const [user, setUser] = useState({name:"", age: ""})
+  const [studentData, setStudentData] = useState([]);
 
   console.log([...studentData]);
 
