@@ -2,21 +2,21 @@ import React from "react";
 
 
 const Table1 = ({ user, setUser, func }) => {
-  console.log(user);
+  
 
   const handleChange = (e) => {
+    console.log(e);
     let newUser = { ...user };
     if (e.target.name === "name") {
       newUser.name = e.target.value;
     } else if (e.target.name === "age") {
       newUser.age = e.target.value;
-    }
+    } 
     newUser.isInEditMode = true;
     setUser(newUser);
   };
 
-  console.log(user)
-  
+    
   const transferValue = (event) => {
     event.preventDefault();
     func(user);

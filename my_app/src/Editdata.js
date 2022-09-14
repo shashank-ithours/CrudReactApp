@@ -6,29 +6,86 @@ import Table1 from "./Table1";
 const Editdata = () => {
   const [user, setUser] = useState({});
   const [studentData, setStudentData] = useState([]);
+  const [updateData, setUpdateData] = useState({});
 
-  console.log(studentData.name);
+  console.log(updateData);
+
   const EditStudent = (i) => {
     let Edtdata = [...studentData];
-    Edtdata = Edtdata.filter((_, idx) => i === idx);
-    console.log(Edtdata.name);
-    Edtdata.isInEditMode = !Edtdata.isInEditMode;
+    Edtdata = Edtdata.filter((val, idx) => {
+      if (i === idx) {
+        setUpdateData(val);
+        return (val.isInEditMode = false);
+      }
+      return val;
+    });
+    console.log(Edtdata);
+    setUser(Edtdata);
+  };
+
+  const UpdateStudent = (e) => {
+    let updateUser = { ...updateData };
+    console.log(e);
+    if (e.target.name === "name") {
+      updateUser.name = e.target.value;
+    } else if (e.target.name === "age") {
+      updateUser.age = e.target.value;
+    }
+    updateUser.isInEditMode = true;
+    console.log(e);
+    // updateUser.isInEditMode = true;
+    setUpdateData(updateUser);
+  };
+
+  const finalValue = (i) => {
+    let finval = [...studentData];
+    finval = finval.map((val, ind) => {
+      if (i === ind) {
+        val=updateData;
+      }
+      return val;
+    });
+    console.log(finval.isInEditMode);
+    setStudentData(finval);
+  };
+
+  const CancelUpdateStudent = (i) => {
+    let Edtdata = [...studentData];
+    Edtdata = Edtdata.filter((val, idx) => {
+      if (i === idx) {
+        return (val.isInEditMode = true);
+      }
+      return val;
+    });
+    console.log(Edtdata);
+    setUser(Edtdata);
   };
   const tableRow = studentData.map((info, i) => {
+    console.log(info);
     return (
       <tr key={i}>
         {info.isInEditMode ? (
           <td>{info.name}</td>
         ) : (
           <td>
-            <input type="text" placeholder={info.name} />
+            <input
+              name="name"
+              type="text"
+              onChange={UpdateStudent}
+              value={updateData.name}
+            />
           </td>
         )}
         {info.isInEditMode ? (
           <td>{info.age}</td>
         ) : (
           <td>
-            <input type="text" placeholder={info.age} />
+            <input
+              name="age"
+              type="number"
+              onChange={UpdateStudent}
+              value={updateData.age}
+            />
           </td>
         )}
 
@@ -38,8 +95,8 @@ const Editdata = () => {
           </td>
         ) : (
           <td>
-            <button>Update</button>
-            <button>Cancel</button>
+            <button onClick={(e) => finalValue(i)}>Update</button>
+            <button onClick={(e) => CancelUpdateStudent(i)}>Cancel</button>
           </td>
         )}
       </tr>
@@ -49,7 +106,7 @@ const Editdata = () => {
     const updatedStudentData = [...studentData];
     updatedStudentData.push(data);
     setStudentData(updatedStudentData);
-    console.log(data);
+    console.log(data.name);
   };
 
   return (
