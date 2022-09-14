@@ -5,6 +5,7 @@ import Table1 from "./Table1";
 
 const Tabledata = () => {
   const [studentData, setStudentData] = useState([]);
+  const [user, setUser] = useState({name:"", age: ""})
 
   console.log([...studentData]);
 
@@ -14,7 +15,7 @@ const Tabledata = () => {
     setStudentData(delData);
   };
 
-  console.log("studentData", studentData[0]);
+  // console.log("studentData", studentData[0]);
 
   const tableRow = studentData.map((info, i) => {
     return (
@@ -22,7 +23,7 @@ const Tabledata = () => {
         <td>{info.name}</td>
         <td>{info.age}</td>
         <td>
-          <button onClick={(e) => deletestudent(i)}>delete</button>
+          <button onClick ={(e)=>deletestudent(i)}>delete</button>
         </td>
       </tr>
     );
@@ -30,13 +31,12 @@ const Tabledata = () => {
   const addRow = (data) => {
     const updatedStudentData = [...studentData];
     updatedStudentData.push(data);
-
     setStudentData(updatedStudentData);
   };
 
   return (
     <div>
-      <Table1 func={addRow} />
+      <Table1 user = {user} setUser={setUser} func={addRow} />
       <table id="table24">
         <thead>
           <tr>

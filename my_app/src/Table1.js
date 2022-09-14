@@ -1,43 +1,56 @@
-import React from 'react'
-import {useState} from 'react'
+import React from "react";
 
-const Table1 = (prop) => {
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
 
-  const changeName = (e)=>{
-    setName(e.target.value)
-    console.log(name);
+const Table1 = ({ user, setUser, func }) => {
+  console.log(user);
+
+  const handleChange = (e) => {
+    let newUser = { ...user };
+    if (e.target.name === "name") {
+      newUser.name = e.target.value;
+    } else if (e.target.name === "age") {
+      newUser.age = e.target.value;
+    }
+    newUser.isInEditMode = true;
+    setUser(newUser);
   };
-  const changeAge=(e)=>{
-    setAge(e.target.value)
-    console.log(age);
-  };
+
+  console.log(user)
+  
   const transferValue = (event) => {
     event.preventDefault();
-    const val = {
-      name,
-      age,
-    };
-    prop.func(val);
+    func(user);
     clearState();
   };
-  
+
   const clearState = () => {
-    setName('');
-    setAge('');
+    setUser({ name: "", age: "" });
   };
-   
-  
 
   return (
     <div>
-      <input type="text" name="" id="name" placeholder = "Name" value={name} onChange={changeName}/>
-      <input type="number" id="age" placeholder="Age" value= {age} onChange={changeAge} />
-      <br /><br />
-      <button className="btn" onClick={transferValue} >Add</button>
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        value={user.name}
+        onChange={(e) => handleChange(e)}
+      />
+      <input
+        type="number"
+        name="age"
+        placeholder="Age"
+        value={user.age}
+        onChange={(e) => handleChange(e)}
+        
+      />
+      <br />
+      <br />
+      <button className="btn" onClick={transferValue}>
+        Add
+      </button>
     </div>
-  )
-}
+  );
+};
 
 export default Table1;
