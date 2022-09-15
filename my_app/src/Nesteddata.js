@@ -38,34 +38,35 @@ const Editdata = () => {
     console.log(Edtdata);
     setUser(Edtdata);
   };
-   const EditSubject = (i)=>{
+  const EditSubject = (i) => {
     let Edtsub = [...studentData];
-    Edtsub = Edtsub.filter((val, inn)=>{
-      if (i===inn) {
+    Edtsub = Edtsub.filter((val, inn) => {
+      if (i === inn) {
         setUpdateData(val);
-        return (val.subject.isInEditMode= false)
+        return (val.subject.isInEditMode = false);
       }
       return val;
-    })
+    });
     setUser(Edtsub);
-   }
+  };
 
   const delStudent = (i) => {
     let delData = [...studentData];
     // eslint-disable-next-line no-restricted-globals
-    confirm('are you sure')
-    delData = delData.filter((_, idx) => i !==idx);
+    confirm("are you sure");
+    delData = delData.filter((_, idx) => i !== idx);
     setStudentData(delData);
   };
 
-  const DelSubject = (index)=>{
-    let delsub = [...studentData]
-    delsub = delsub.filter((val,idx)=>{
-      return val
-    })
-    console.log(delsub.subject);
-    // setStudentData(delsub);
-  }
+  const DelSubject = (userIdx,subIdx) => {
+    let delsub = [...studentData];
+    debugger
+    delsub = delsub[userIdx]
+debugger
+    let sub = delsub.subject.sub.filter((val, idx)=>idx!==subIdx);
+    delsub[userIdx].subject.sub = sub
+    setStudentData(delsub);
+  };
 
   const UpdateStudent = (e) => {
     let updateUser = { ...updateData };
@@ -76,7 +77,6 @@ const Editdata = () => {
       updateUser.age = e.target.value;
     }
     updateUser.isInEditMode = true;
-
     setUpdateData(updateUser);
   };
 
@@ -153,8 +153,10 @@ const Editdata = () => {
                     {info.subject.isInEditMode ? (
                       <div>
                         <span>{value}</span>
-                        <button onClick={(e)=>EditSubject(i)}>Edit</button>
-                        <button onClick={(e)=>DelSubject(index)}>Delete</button>
+                        <button onClick={(e) => EditSubject(i)}>Edit</button>
+                        <button onClick={(e) => DelSubject(i,index)}>
+                          Delete
+                        </button>
                       </div>
                     ) : (
                       <div>
