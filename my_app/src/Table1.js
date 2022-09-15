@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const Table1 = ({ user, setUser, func }) => {
+const Table1 = ({ user, setUser, func, subjectsN }) => {
   
 
   const handleChange = (e) => {
@@ -13,6 +13,10 @@ const Table1 = ({ user, setUser, func }) => {
       newUser.age = e.target.value;
     } 
     newUser.isInEditMode = true;
+    newUser.subject = {
+      sub:[],
+      isInEditMode : true
+    }
     setUser(newUser);
   };
 
@@ -20,7 +24,7 @@ const Table1 = ({ user, setUser, func }) => {
   const transferValue = (event) => {
     event.preventDefault();
     func(user);
-    clearState();
+clearState();
   };
 
   const clearState = () => {

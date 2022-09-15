@@ -7,43 +7,29 @@ const Editdata = () => {
   const [user, setUser] = useState({});
   const [studentData, setStudentData] = useState([]);
   const [updateData, setUpdateData] = useState({});
-  const [subject, setSubject] = useState([]);
+  // const [subject, setSubject] = useState([]);
 
-  console.log(updateData);
-  console.log(subject);
+  console.log(studentData);
+  // console.log(subject);
 
-  const addsubject = (sub) => {
-    let subName = [...subject];
-    subName.push(prompt("please enter your subject name"));
-    setSubject(subName);
-    subName.isInEditMode2 = true;
+  const addsubject = (idxh) => {
+    let subName = [...studentData];
+    let addedsubj = prompt("please enter your subject name");
+    subName = subName.map((subval, idx) => {
+      if (idxh === idx) {
+        setUpdateData(subval);
+        return subval.subject.sub.push(addedsubj);
+      }
+      return subval;
+    });
+    setUser(subName);
   };
-
-  let addedSub = subject.map((val, inx) => {
-      return (
-        
-          <div>
-        <span>{val} </span>
-        {true ? (
-          <>
-            <button>Edit</button>
-            <button>Delete</button>
-          </>
-        ) : (
-          <>
-            <button>Update</button>
-            <button>cancel</button>
-            <button>Delete</button>
-          </>
-        )}
-      </div>
-    );
-  });
 
   const EditStudent = (i) => {
     let Edtdata = [...studentData];
     Edtdata = Edtdata.filter((val, idx) => {
       if (i === idx) {
+        console.log(val);
         setUpdateData(val);
         return (val.isInEditMode = false);
       }
@@ -52,12 +38,34 @@ const Editdata = () => {
     console.log(Edtdata);
     setUser(Edtdata);
   };
+   const EditSubject = (i)=>{
+    let Edtsub = [...studentData];
+    Edtsub = Edtsub.filter((val, inn)=>{
+      if (i===inn) {
+        setUpdateData(val);
+        return (val.subject.isInEditMode= false)
+      }
+      return val;
+    })
+    setUser(Edtsub);
+   }
 
   const delStudent = (i) => {
     let delData = [...studentData];
-    delData = delData.filter((_, idx) => i !== idx);
+    // eslint-disable-next-line no-restricted-globals
+    confirm('are you sure')
+    delData = delData.filter((_, idx) => i !==idx);
     setStudentData(delData);
   };
+
+  const DelSubject = (index)=>{
+    let delsub = [...studentData]
+    delsub = delsub.filter((val,idx)=>{
+      return val
+    })
+    console.log(delsub.subject);
+    // setStudentData(delsub);
+  }
 
   const UpdateStudent = (e) => {
     let updateUser = { ...updateData };
@@ -68,8 +76,7 @@ const Editdata = () => {
       updateUser.age = e.target.value;
     }
     updateUser.isInEditMode = true;
-    console.log(e);
-    // updateUser.isInEditMode = true;
+
     setUpdateData(updateUser);
   };
 
@@ -78,6 +85,7 @@ const Editdata = () => {
     finval = finval.map((val, ind) => {
       if (i === ind) {
         val = updateData;
+        console.log(val);
       }
       return val;
     });
@@ -95,6 +103,17 @@ const Editdata = () => {
     });
     console.log(Edtdata);
     setUser(Edtdata);
+  };
+
+  const CancelUpdateSubject = (i) => {
+    let cncldata = [...studentData];
+    cncldata = cncldata.filter((val, idxcv) => {
+      if (i === idxcv) {
+        console.log((val.subject.isInEditMode = true));
+      }
+      return val;
+    });
+    setUser(cncldata);
   };
   const tableRow = studentData.map((info, i) => {
     console.log(info);
@@ -126,8 +145,37 @@ const Editdata = () => {
         )}
 
         <td>
-          {addedSub}
-          <button onClick={addsubject}>Add</button>
+          <table>
+            <tbody>
+              {info.subject.sub.map((value, index) => {
+                return (
+                  <tr key={index}>
+                    {info.subject.isInEditMode ? (
+                      <div>
+                        <span>{value}</span>
+                        <button onClick={(e)=>EditSubject(i)}>Edit</button>
+                        <button onClick={(e)=>DelSubject(index)}>Delete</button>
+                      </div>
+                    ) : (
+                      <div>
+                        <input
+                          name="subject"
+                          type="text"
+                          value={updateData.subject.sub}
+                        />
+                        <button>Update</button>
+                        <button onClick={(e) => CancelUpdateSubject(i)}>
+                          Cancel
+                        </button>
+                        <button>Delete</button>
+                      </div>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <button onClick={(e) => addsubject(i)}>Add</button>
         </td>
 
         {info.isInEditMode ? (
